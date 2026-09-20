@@ -1,6 +1,7 @@
 package io.github.ehdnd.mvc2.thymeleaf.basic;
 
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,13 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/basic")
 public class BasicController {
 
-  @GetMapping("text-basic")
+  @GetMapping("/text-basic")
   public String textBasic(Model model) {
     model.addAttribute("data", "<b>Hello World!</b>");
     return "basic/text-basic";
   }
 
-  @GetMapping("text-unescaped")
+  @GetMapping("/text-unescaped")
   public String textUnescaped(Model model) {
     model.addAttribute("data", "<b>Hello World!</b>");
     return "basic/text-unescaped";
@@ -47,7 +48,7 @@ public class BasicController {
     return "basic/variable";
   }
 
-  @GetMapping("basic-objects")
+  @GetMapping("/basic-objects")
   public String basicObjects(HttpSession session) {
     session.setAttribute("sessionData", "Hello Session");
     return "basic/basic-objects";
@@ -59,6 +60,12 @@ public class BasicController {
     public String hello(String data) {
       return "Hello" + data;
     }
+  }
+
+  @GetMapping("date")
+  public String date(Model model) {
+    model.addAttribute("localDateTime", LocalDateTime.now());
+    return "basic/date";
   }
 
   @Data
