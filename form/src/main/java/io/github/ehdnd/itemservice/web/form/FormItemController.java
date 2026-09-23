@@ -1,4 +1,4 @@
-package io.github.ehdnd.itemservice.web.basic;
+package io.github.ehdnd.itemservice.web.form;
 
 import io.github.ehdnd.itemservice.domain.item.Item;
 import io.github.ehdnd.itemservice.domain.item.ItemRepository;

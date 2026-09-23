@@ -1,5 +1,11 @@
 package io.github.ehdnd.itemservice;
 
+import io.github.ehdnd.itemservice.domain.item.Item;
+import io.github.ehdnd.itemservice.domain.item.ItemRepository;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
 @Component
 @RequiredArgsConstructor
 public class TestDataInit {
