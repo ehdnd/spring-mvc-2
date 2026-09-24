@@ -2,6 +2,7 @@ package io.github.ehdnd.itemservice.web.form;
 
 import io.github.ehdnd.itemservice.domain.item.Item;
 import io.github.ehdnd.itemservice.domain.item.ItemRepository;
+import io.github.ehdnd.itemservice.domain.item.ItemType;
 import jakarta.annotation.PostConstruct;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -32,6 +33,11 @@ public class FormItemController {
     return regions;
   }
 
+  @ModelAttribute("itemTypes")
+  public ItemType[] itemTypes() {
+    return ItemType.values(); // ENUM 모든 정보를 배열로 반환한다.
+  }
+
   @GetMapping
   public String items(Model model) {
     List<Item> items = itemRepository.findAll();
@@ -57,6 +63,7 @@ public class FormItemController {
 
     log.info("item.open={}", item.getOpen()); // spring -> true / null -> MVC 트릭사용
     log.info("item.regions={}", item.getRegions());
+    log.info("item.itemType={}", item.getItemType()); // 선택 안하면 null. 히든필드 X.
 
     Item savedItem = itemRepository.save(item);
     redirectAttributes.addAttribute("itemId", savedItem.getId());
