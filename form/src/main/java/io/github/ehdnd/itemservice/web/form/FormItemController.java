@@ -3,6 +3,8 @@ package io.github.ehdnd.itemservice.web.form;
 import io.github.ehdnd.itemservice.domain.item.Item;
 import io.github.ehdnd.itemservice.domain.item.ItemRepository;
 import jakarta.annotation.PostConstruct;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,16 @@ import java.util.List;
 public class FormItemController {
 
   private final ItemRepository itemRepository;
+
+  // 자동으로 모든 model에 담긴다.
+  @ModelAttribute("regions")
+  public Map<String, String> regions() {
+    Map<String, String> regions = new LinkedHashMap<>();
+    regions.put("SEOUL", "서울");
+    regions.put("BUSAN", "부산");
+    regions.put("JEJU", "제주");
+    return regions;
+  }
 
   @GetMapping
   public String items(Model model) {
@@ -43,7 +55,8 @@ public class FormItemController {
   @PostMapping("/add")
   public String addItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
 
-    log.info("item.open={}", item.getOpen()); // spring -> true / null
+    log.info("item.open={}", item.getOpen()); // spring -> true / null -> MVC 트릭사용
+    log.info("item.regions={}", item.getRegions());
 
     Item savedItem = itemRepository.save(item);
     redirectAttributes.addAttribute("itemId", savedItem.getId());
