@@ -4,6 +4,7 @@ import io.github.ehdnd.itemservice.domain.item.Item;
 import io.github.ehdnd.itemservice.domain.item.ItemRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/form/items")
 @RequiredArgsConstructor
@@ -40,6 +42,9 @@ public class FormItemController {
 
   @PostMapping("/add")
   public String addItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
+
+    log.info("item.open={}", item.getOpen()); // spring -> true / null
+
     Item savedItem = itemRepository.save(item);
     redirectAttributes.addAttribute("itemId", savedItem.getId());
     redirectAttributes.addAttribute("status", true);
