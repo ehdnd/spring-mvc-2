@@ -1,9 +1,11 @@
 package io.github.ehdnd.itemservice.web.form;
 
+import io.github.ehdnd.itemservice.domain.item.DeliveryCode;
 import io.github.ehdnd.itemservice.domain.item.Item;
 import io.github.ehdnd.itemservice.domain.item.ItemRepository;
 import io.github.ehdnd.itemservice.domain.item.ItemType;
 import jakarta.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +40,15 @@ public class FormItemController {
     return ItemType.values(); // ENUM 모든 정보를 배열로 반환한다.
   }
 
+  @ModelAttribute("deliveryCodes")
+  public List<DeliveryCode> deliveryCodes() {
+    List<DeliveryCode> deliveryCodes = new ArrayList<>();
+    deliveryCodes.add(new DeliveryCode("FAST", "빠른 배송"));
+    deliveryCodes.add(new DeliveryCode("NORMAL", "일반 배송"));
+    deliveryCodes.add(new DeliveryCode("SLOW", "느린 배송"));
+    return deliveryCodes;
+  }
+
   @GetMapping
   public String items(Model model) {
     List<Item> items = itemRepository.findAll();
@@ -64,6 +75,7 @@ public class FormItemController {
     log.info("item.open={}", item.getOpen()); // spring -> true / null -> MVC 트릭사용
     log.info("item.regions={}", item.getRegions());
     log.info("item.itemType={}", item.getItemType()); // 선택 안하면 null. 히든필드 X.
+    log.info("item.deliveryCode={}", item.getDeliveryCode());
 
     Item savedItem = itemRepository.save(item);
     redirectAttributes.addAttribute("itemId", savedItem.getId());
