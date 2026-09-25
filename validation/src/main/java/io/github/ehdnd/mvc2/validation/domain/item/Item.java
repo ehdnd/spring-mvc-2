@@ -9,17 +9,18 @@ import org.hibernate.validator.constraints.Range;
 @Data
 public class Item {
 
+  @NotNull(groups = UpdateCheck.class)
   private Long id;
 
-  @NotBlank
+  @NotBlank(groups = {SaveCheck.class, UpdateCheck.class})
   private String itemName;
 
-  @NotNull
-  @Range(min = 1000, max = 1_000_000)
+  @NotNull(groups = {SaveCheck.class, UpdateCheck.class})
+  @Range(min = 1000, max = 1_000_000, groups = {SaveCheck.class, UpdateCheck.class})
   private Integer price;
 
-  @NotNull
-  @Max(9998)
+  @NotNull(groups = {SaveCheck.class, UpdateCheck.class})
+  @Max(value = 9998, groups = SaveCheck.class)
   private Integer quantity;
 
   public Item() {
