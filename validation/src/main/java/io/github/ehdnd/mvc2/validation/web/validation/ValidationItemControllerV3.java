@@ -49,6 +49,15 @@ public class ValidationItemControllerV3 {
   public String addItem(@Validated @ModelAttribute Item item, BindingResult bindingResult,
       RedirectAttributes redirectAttributes) {
 
+    // Object 관련해서는 직접 자바코드로 검증하자.
+    if (item.getPrice() != null && item.getQuantity() != null) {
+      int resultPrice = item.getPrice() * item.getQuantity();
+      if (resultPrice < 10000) {
+        bindingResult.reject("totalPriceMin", new Object[]{10000,
+            resultPrice}, null);
+      }
+    }
+    
     if (bindingResult.hasErrors()) {
       log.info("bindingResult = {}", bindingResult);
       return "validation/v3/addForm";
