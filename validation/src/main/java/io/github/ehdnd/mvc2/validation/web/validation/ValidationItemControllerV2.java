@@ -60,6 +60,11 @@ public class ValidationItemControllerV2 {
   public String addItemV1(@ModelAttribute Item item, BindingResult bindingResult,
       RedirectAttributes redirectAttributes) {
 
+    // [V1] FieldError(objectName, field, defaultMessage) 3-인자 생성자 → rejectedValue = null
+    // 에러가 있는 필드는 th:field가 모델 값 대신 FieldError.rejectedValue를 출력한다
+    //  - 가격 111: 바인딩 성공(item.price=111)이지만 rejectedValue가 null → 입력값 사라짐
+    //  - 가격 qqq: 바인딩 실패 → 스프링이 rejectedValue="qqq", bindingFailure=true로 FieldError 생성 → 유지
+
     // 검증 로직
     if (!StringUtils.hasText(item.getItemName())) {
       bindingResult.addError(new FieldError("item", "itemName", "상품 이름은 필수입니다."));
@@ -98,6 +103,11 @@ public class ValidationItemControllerV2 {
   //  @PostMapping("/add")
   public String addItemV2(@ModelAttribute Item item, BindingResult bindingResult,
       RedirectAttributes redirectAttributes) {
+
+    // [V2] 7-인자 생성자: (objectName, field, rejectedValue, bindingFailure, codes, arguments, defaultMessage)
+    // rejectedValue에 사용자 입력값 전달 → 재렌더링 시 입력값 유지
+    // bindingFailure=false: 바인딩은 성공했고 검증 로직에서 실패
+    // codes/arguments=null, 메시지는 defaultMessage에 하드코딩 (V3에서 codes + errors.properties로 분리)
 
     // 검증 로직
     if (!StringUtils.hasText(item.getItemName())) {
@@ -143,6 +153,8 @@ public class ValidationItemControllerV2 {
   //  @PostMapping("/add")
   public String addItemV3(@ModelAttribute Item item, BindingResult bindingResult,
       RedirectAttributes redirectAttributes) {
+
+    // errors.properties 메시지 사용
 
     // 검증 로직
     if (!StringUtils.hasText(item.getItemName())) {
@@ -190,6 +202,12 @@ public class ValidationItemControllerV2 {
   //  @PostMapping("/add")
   public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult,
       RedirectAttributes redirectAttributes) {
+
+    // [V4] BindingResult는 target(item)과 objectName("item")을 감싸서 생성된 객체라 이미 알고 있다
+    //      (@ModelAttribute 바로 뒤에 선언하는 건 어느 객체의 BindingResult인지 매칭하는 규칙)
+    // rejectValue()/reject(): 내부에서 rejectedValue를 꺼내고 codes를 생성해 FieldError/ObjectError를 만든다
+    // errorCode "required"만 넘기면 MessageCodesResolver가 생성:
+    //   required.item.itemName → required.itemName → required.java.lang.String → required
 
     log.info("objectName={}", bindingResult.getObjectName());
     log.info("target={}", bindingResult.getTarget());
