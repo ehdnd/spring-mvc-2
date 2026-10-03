@@ -4,6 +4,7 @@ import io.github.ehdnd.mvc2.login.domain.member.Member;
 import io.github.ehdnd.mvc2.login.domain.member.MemberRepository;
 import io.github.ehdnd.mvc2.login.web.session.SessionManager;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -42,7 +43,7 @@ public class HomeController {
   }
 
 
-  @GetMapping("/")
+  //  @GetMapping("/")
   public String homeLoginV2(HttpServletRequest request, Model model) {
 
     // 세션 관리자에 저장된 회원 정보 조회
@@ -51,6 +52,25 @@ public class HomeController {
       return "home";
     }
 
+    model.addAttribute("member", member);
+    return "loginHome";
+  }
+
+  @GetMapping("/")
+  public String homeLoginV3(HttpServletRequest request, Model model) {
+
+    HttpSession session = request.getSession(false);
+    if (session == null) {
+      return "home";
+    }
+
+    Member member = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+    // 세션에 회원 데이터가 없다
+    if (member == null) {
+      return "home";
+    }
+
+    // 세션이 유지되면 로그인 홈으로 이동
     model.addAttribute("member", member);
     return "loginHome";
   }
