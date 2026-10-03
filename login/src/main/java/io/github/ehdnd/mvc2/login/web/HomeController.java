@@ -25,7 +25,7 @@ public class HomeController {
   public String homeLogin(@CookieValue(name = "memberId", required = false) Long memberId,
       Model model) {
     Member loginMember = memberRepository.findById(memberId);
-    if (memberId == null) {
+    if (loginMember == null) {
       return "home";
     }
 
