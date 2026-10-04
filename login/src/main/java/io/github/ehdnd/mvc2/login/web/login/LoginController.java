@@ -91,6 +91,7 @@ public class LoginController {
     // 로그인 성공
 
     // 세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성 (true)
+    // JSESSIONID 에 연결된 HttpSession 반환 (로그인 유무 상관없이 가질 수 있다. 브라우저 당 하나)
     HttpSession session = request.getSession();
     // 세션에 로그인 회원 정보 보관
     session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
@@ -114,6 +115,7 @@ public class LoginController {
   public String logoutV3(HttpServletRequest request) {
     HttpSession session = request.getSession(false);
     if (session != null) {
+      // 세션과 내부의 attribute 모두 제거
       session.invalidate();
     }
     return "redirect:/";
