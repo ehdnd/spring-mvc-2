@@ -35,7 +35,7 @@ public class WebConfig implements WebMvcConfigurer {
   }
 
   //  @Bean
-  public FilterRegistrationBean logFilter() {
+  public FilterRegistrationBean<Filter> logFilter() {
     FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
     filterRegistrationBean.setFilter(new LogFilter());
     filterRegistrationBean.setOrder(1);
@@ -45,7 +45,7 @@ public class WebConfig implements WebMvcConfigurer {
   }
 
   //  @Bean
-  public FilterRegistrationBean loginCheckFilter() {
+  public FilterRegistrationBean<Filter> loginCheckFilter() {
     FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
     filterRegistrationBean.setFilter(new LoginCheckFilter());
     filterRegistrationBean.setOrder(2);
