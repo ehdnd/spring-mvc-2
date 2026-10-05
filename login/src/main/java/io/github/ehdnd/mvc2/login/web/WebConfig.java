@@ -1,18 +1,26 @@
 package io.github.ehdnd.mvc2.login.web;
 
+import io.github.ehdnd.mvc2.login.web.argumentResolver.LoginMemberArgumentResolver;
 import io.github.ehdnd.mvc2.login.web.filter.LogFilter;
 import io.github.ehdnd.mvc2.login.web.filter.LoginCheckFilter;
 import io.github.ehdnd.mvc2.login.web.interceptor.LogInterceptor;
 import io.github.ehdnd.mvc2.login.web.interceptor.LoginCheckInterceptor;
 import jakarta.servlet.Filter;
+import java.util.List;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
+  @Override
+  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+    resolvers.add(new LoginMemberArgumentResolver());
+  }
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
