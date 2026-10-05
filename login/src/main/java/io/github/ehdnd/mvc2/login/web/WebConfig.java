@@ -2,15 +2,24 @@ package io.github.ehdnd.mvc2.login.web;
 
 import io.github.ehdnd.mvc2.login.web.filter.LogFilter;
 import io.github.ehdnd.mvc2.login.web.filter.LoginCheckFilter;
+import io.github.ehdnd.mvc2.login.web.interceptor.LogInterceptor;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebConfig {
+public class WebConfig implements WebMvcConfigurer {
 
-  @Bean
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(new LogInterceptor()).order(1).addPathPatterns("/**")
+        .excludePathPatterns("/css/**", "/*.ico", "/error");
+  }
+
+  //  @Bean
   public FilterRegistrationBean logFilter() {
     FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
     filterRegistrationBean.setFilter(new LogFilter());
@@ -20,7 +29,7 @@ public class WebConfig {
     return filterRegistrationBean;
   }
 
-  @Bean
+  //  @Bean
   public FilterRegistrationBean loginCheckFilter() {
     FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
     filterRegistrationBean.setFilter(new LoginCheckFilter());
