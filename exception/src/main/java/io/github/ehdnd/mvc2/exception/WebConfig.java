@@ -3,6 +3,7 @@ package io.github.ehdnd.mvc2.exception;
 import io.github.ehdnd.mvc2.exception.filter.LogFilter;
 import io.github.ehdnd.mvc2.exception.interceptor.LogInterceptor;
 import io.github.ehdnd.mvc2.exception.resolver.MyHandlerExceptionResolver;
+import io.github.ehdnd.mvc2.exception.resolver.UserHandlerExceptionResolver;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.Filter;
 import java.util.List;
@@ -26,6 +27,7 @@ public class WebConfig implements WebMvcConfigurer {
   @Override
   public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
     resolvers.add(new MyHandlerExceptionResolver());
+    resolvers.add(new UserHandlerExceptionResolver());
   }
 
   //  @Bean
