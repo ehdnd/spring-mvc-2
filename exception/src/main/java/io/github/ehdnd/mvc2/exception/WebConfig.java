@@ -2,11 +2,14 @@ package io.github.ehdnd.mvc2.exception;
 
 import io.github.ehdnd.mvc2.exception.filter.LogFilter;
 import io.github.ehdnd.mvc2.exception.interceptor.LogInterceptor;
+import io.github.ehdnd.mvc2.exception.resolver.MyHandlerExceptionResolver;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.Filter;
+import java.util.List;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -18,6 +21,11 @@ public class WebConfig implements WebMvcConfigurer {
     // 오류 페이지 경로를 패턴에 넣자.
     registry.addInterceptor(new LogInterceptor()).order(1).addPathPatterns("/**")
         .excludePathPatterns("/css/**", "*.ico", "/error", "/error-page/**");
+  }
+
+  @Override
+  public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+    resolvers.add(new MyHandlerExceptionResolver());
   }
 
   //  @Bean
