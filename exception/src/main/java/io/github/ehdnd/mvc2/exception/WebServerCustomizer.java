@@ -7,7 +7,7 @@ import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-// @Component
+@Component
 public class WebServerCustomizer implements
     WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
 
@@ -20,7 +20,7 @@ public class WebServerCustomizer implements
     // 런타임 + 자식타입예외
     ErrorPage errorPageEx = new ErrorPage(RuntimeException.class, "/error-page/500");
 
-    // WAS 에서뿌터 필터, 서블릿, 컨트롤러 . . 다시 쭉 호출된다. (나중에 다시 보자 TODO)
+    // WAS 에서뿌터 필터, 서블릿, 컨트롤러 . . 다시 쭉 호출된다.
     factory.addErrorPages(errorPage404, errorPage500, errorPageEx);
   }
 }
