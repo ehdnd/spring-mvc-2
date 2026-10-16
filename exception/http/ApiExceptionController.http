@@ -21,10 +21,21 @@ Accept: text/html
 
 ###
 GET http://localhost:8080/api/response-status-ex1?
-    message=
-    Accept: application/json
+    message=test
+Accept: application/json
 
 ###
 GET http://localhost:8080/api/response-status-ex2?
-    message=
-    Accept: application/json
+    message=test
+Accept: application/json
+
+###
+GET http://localhost:8080/api/default-handler-ex?
+    message=test
+Accept: application/json
+
+###
+GET http://localhost:8080/api/default-handler-ex?
+    message=&
+    data=10
+Accept: application/json
