@@ -1,0 +1,14 @@
+###
+GET http://localhost:8080/api2/members/ex?
+    message=test
+Accept: application/json
+
+###
+GET http://localhost:8080/api2/members/bad?
+    message=test
+Accept: application/json
+
+###
+GET http://localhost:8080/api2/members/user-ex?
+    message=test
+Accept: application/json
