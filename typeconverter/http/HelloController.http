@@ -5,3 +5,7 @@ GET http://localhost:8080/hello-v1?
 ###
 GET http://localhost:8080/hello-v2?
     data=10
+
+###
+GET http://localhost:8080/ip-port?
+    ipPort=127.0.0.1:8080
